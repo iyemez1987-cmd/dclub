@@ -35,7 +35,7 @@ button:disabled{opacity:.6}
 .kart{background:var(--bordo);border-radius:24px;padding:18px;position:relative;box-shadow:0 18px 40px rgba(0,0,0,.45)}
 .kart::before{content:"";position:absolute;inset:8px;border:1px solid rgba(216,181,122,.45);border-radius:18px;pointer-events:none}
 .beyaz{background:#fff;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px;color:#111}
-.kod{font:600 22px Jost,sans-serif;letter-spacing:.25em}
+.kod{font:600 22px Jost,sans-serif;letter-spacing:.12em}
 .kutu{background:var(--yuzey);border:1px solid var(--cizgi);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px}
 .satir{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .damgalar{display:grid;gap:8px}
@@ -84,8 +84,9 @@ button:disabled{opacity:.6}
         <div id="qr" aria-label="Üye QR kodu"></div>
         <svg id="barkod" width="250" height="56" aria-label="Üye barkodu"></svg>
         <div class="kod" id="kod"></div>
+        <div id="uyekod" style="font-size:12px;color:#666"></div>
       </div>
-      <p style="text-align:center;color:var(--altinAcik);margin-top:12px;position:relative">Kasada bu kodu okut</p>
+      <p style="text-align:center;color:var(--altinAcik);margin-top:12px;position:relative">Kasada bu kodu okut ya da telefon numaranı söyle</p>
     </div>
     <div id="hediyeler"></div>
     <div id="kartlar" style="display:flex;flex-direction:column;gap:12px"></div>
@@ -145,9 +146,11 @@ function kartCiz(o) {
   const m = o.musteri;
   $('adsoyad').textContent = m.ad || '';
   $('selam').textContent = o.seviye && o.seviye.ad ? `${o.seviye.ad} üye` : 'Hoş geldin';
-  const kod = m.uye_kodu || '';
-  $('kod').textContent = kod;
-  if (kod) { qrCiz(kod); barkodCiz(kod); }
+  // Kasada okutulan kart numarası = telefon (Dara'da Kart No olarak kayıtlı)
+  const kart = String(m.telefon || '').replace(/\D/g, '').slice(-10) || (m.uye_kodu || '');
+  $('kod').textContent = kart.length === 10 ? `${kart.slice(0, 3)} ${kart.slice(3, 6)} ${kart.slice(6, 8)} ${kart.slice(8)}` : kart;
+  $('uyekod').textContent = m.uye_kodu ? 'Üye no: ' + m.uye_kodu : '';
+  if (kart) { qrCiz(kart); barkodCiz(kart); }
   $('hediyeler').innerHTML = (o.hediyeler || []).map((h) => `<div class="hediye-kutu">🎁 ${esc(h.aciklama)} hazır<small>Kasada QR'ını okut; son gün ${h.son_kullanma ? new Date(h.son_kullanma).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' }) : '—'}</small></div>`).join('');
   $('kartlar').innerHTML = (o.kartlar || []).map((k) => {
     if (k.tur === 'puan') return `<div class="kutu"><div class="satir"><span class="etiket">${esc(k.ad).toLocaleUpperCase('tr-TR')}</span>${k.puan_degeri_tl ? `<span style="color:var(--soluk);font-size:13px">≈ ₺${binlik(k.puan * k.puan_degeri_tl)}</span>` : ''}</div><div class="puan">${binlik(k.puan)} <span style="font:400 15px Jost;color:var(--soluk)">puan</span></div></div>`;
