@@ -43,7 +43,8 @@ public class MainActivity extends Activity {
             public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest r) {
                 Uri u = r.getUrl();
                 // APK güncellemesi ve dış bağlantılar tarayıcıda açılır
-                if (ALAN.equals(u.getHost()) && !u.getPath().endsWith(".apk")) return false;
+                String yol = u.getPath();
+                if (ALAN.equals(u.getHost()) && (yol == null || !yol.endsWith(".apk"))) return false;
                 try { startActivity(new Intent(Intent.ACTION_VIEW, u)); } catch (Exception e) { /* yoksay */ }
                 return true;
             }
