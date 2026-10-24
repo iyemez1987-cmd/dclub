@@ -237,17 +237,20 @@ $('form').addEventListener('submit', async (e) => {
 });
 $('yenile').addEventListener('click', () => kartGetir(false));
 $('cik').addEventListener('click', () => { if (confirm('Bu telefondaki kart kaldırılsın mı? Aynı telefon numarasıyla tekrar üye olarak geri getirebilirsin.')) { yaz(null); sonImza = ''; goster('kayit'); } });
-document.addEventListener('visibilitychange', () => { if (!document.hidden && oku()) kartGetir(true); });
-setInterval(() => { if (!document.hidden && oku() && !$('kartim').hidden) kartGetir(true); }, 15000);
+document.addEventListener('visibilitychange', () => { if (document.hidden) return; vitrinGetir(); if (oku()) kartGetir(true); });
+setInterval(() => { if (document.hidden) return; vitrinGetir(); if (oku() && !$('kartim').hidden) kartGetir(true); }, 15000);
 
-let vitrin = null;
-rpc('sadakat_vitrin', { p_slug: SLUG }).then((v) => {
+let vitrin = null, vitrinImza = '';
+// kampanyalar panelden değişince uygulama da güncellensin: açılışta, öne gelince ve 15 sn'de bir
+function vitrinGetir() { return rpc('sadakat_vitrin', { p_slug: SLUG }).then((v) => {
   if (!v || !v.isletme) return;
+  const imza = JSON.stringify(v); if (imza === vitrinImza) return; vitrinImza = imza;
   vitrin = v;
   $('isletme-ad').textContent = v.isletme.ad; document.title = v.isletme.ad + ' · D Club';
   if (v.isletme.logo_url) $('logo').src = v.isletme.logo_url;
   firsatCiz();
-}).catch(() => {});
+}).catch(() => {}); }
+vitrinGetir();
 // damga/puan dışındaki kampanyalar (1+1, indirim, saat...) "Fırsatlar" olarak
 function firsatCiz() {
   const l = ((vitrin && vitrin.kampanyalar) || []).filter((k) => k.tur !== 'damga' && k.tur !== 'puan');
