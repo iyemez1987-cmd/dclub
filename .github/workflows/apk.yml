@@ -5,6 +5,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: apk
+  cancel-in-progress: true
 jobs:
   derle:
     runs-on: ubuntu-latest
