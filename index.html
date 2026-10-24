@@ -256,7 +256,7 @@ function firsatCiz() {
   const l = ((vitrin && vitrin.kampanyalar) || []).filter((k) => k.tur !== 'damga' && k.tur !== 'puan');
   $('firsatlar').innerHTML = l.length ? '<span class="etiket">FIRSATLAR</span>' + l.map((k) => {
     const g = k.gorsel || {};
-    return `<div class="firsat"><div class="rozet">${esc(g.etiket || '%')}</div><div>${g.ust ? `<small>${esc(g.ust)}</small>` : ''}<b>${esc(k.ad)}</b>${g.alt ? `<span>${esc(g.alt)}</span>` : ''}</div></div>`;
+    return `<div class="firsat"><div class="rozet">${esc(g.etiket || '%')}</div><div>${g.ust ? `<small>${esc(g.ust)}</small>` : ''}<b>${esc(k.ad)}</b>${g.alt ? `<span>${esc(g.alt)}</span>` : ''}${g.kosul ? `<span style="display:block;font-size:12px;opacity:.85;margin-top:4px">${esc(g.kosul)}</span>` : ''}${k.baslangic && new Date(k.baslangic) > new Date() ? `<span style="display:block;font-size:12px;margin-top:4px;color:var(--altin)">${new Date(k.baslangic).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' })} tarihinde başlıyor</span>` : ''}</div></div>`;
   }).join('') : '';
 }
 
