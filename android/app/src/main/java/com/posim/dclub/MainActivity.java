@@ -19,7 +19,9 @@ public class MainActivity extends Activity {
     // İşletme adresin sonundaki ?i= ile seçilir
     private static final String ADRES = "https://iyemez1987-cmd.github.io/dclub/?i=zztest-dara";
     private static final String ALAN = "iyemez1987-cmd.github.io";
+    private static final String SURUM = "1.1";
     private WebView web;
+    private long arkaPlanaGecis = 0;
 
     @Override
     protected void onCreate(Bundle b) {
@@ -33,14 +35,15 @@ public class MainActivity extends Activity {
         s.setDomStorageEnabled(true);
         s.setDatabaseEnabled(true);
         s.setCacheMode(WebSettings.LOAD_DEFAULT);
-        s.setUserAgentString(s.getUserAgentString() + " DClubApp/1.0");
+        s.setUserAgentString(s.getUserAgentString() + " DClubApp/" + SURUM);
 
         web.setWebChromeClient(new WebChromeClient()); // onay pencereleri (confirm) için
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest r) {
                 Uri u = r.getUrl();
-                if (ALAN.equals(u.getHost())) return false;
+                // APK güncellemesi ve dış bağlantılar tarayıcıda açılır
+                if (ALAN.equals(u.getHost()) && !u.getPath().endsWith(".apk")) return false;
                 try { startActivity(new Intent(Intent.ACTION_VIEW, u)); } catch (Exception e) { /* yoksay */ }
                 return true;
             }
@@ -56,6 +59,10 @@ public class MainActivity extends Activity {
             }
         });
 
+        web.setDownloadListener((url, ua, cd, mime, len) -> {
+            try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))); } catch (Exception e) { /* yoksay */ }
+        });
+
         if (b != null) web.restoreState(b); else web.loadUrl(ADRES);
     }
 
@@ -64,6 +71,15 @@ public class MainActivity extends Activity {
         super.onResume();
         // QR kasada kolay okunsun diye ekran açıkken kapanmasın
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        // 5 dakikadan uzun arka planda kaldıysa sayfayı tazele (yeni sürüm ve güncel kampanyalar)
+        if (arkaPlanaGecis > 0 && System.currentTimeMillis() - arkaPlanaGecis > 5 * 60 * 1000) web.reload();
+        arkaPlanaGecis = 0;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        arkaPlanaGecis = System.currentTimeMillis();
     }
 
     @Override

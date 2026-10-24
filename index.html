@@ -294,7 +294,25 @@ $('kur-dugme').addEventListener('click', async () => {
   if (s.outcome === 'accepted') { $('kur').hidden = true; isaret('D Club ana ekrana eklendi ✓'); }
 });
 addEventListener('appinstalled', () => { $('kur').hidden = true; });
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').then((r) => r.update()).catch(() => {});
+
+// ---- Güncelleme: sayfa yeni sürüme kendiliğinden geçer; APK eskiyse indirme bandı çıkar
+const SAYFA_SURUM = '2026-10-24.2';
+const apkSurum = (navigator.userAgent.match(/DClubApp\/([\d.]+)/) || [])[1] || null;
+const surumBuyuk = (a, b) => { const x = a.split('.').map(Number), y = b.split('.').map(Number); for (let i = 0; i < Math.max(x.length, y.length); i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) > (y[i] || 0); } return false; };
+async function surumKontrol() {
+  try {
+    const v = await (await fetch('surum.json?t=' + Date.now(), { cache: 'no-store' })).json();
+    const formDolu = !$('kayit').hidden && ($('ad').value || $('tel').value);
+    if (v.sayfa && v.sayfa !== SAYFA_SURUM && $('qr-perde').hidden && !formDolu) { location.reload(); return; }
+    if (apkSurum && v.apk && surumBuyuk(v.apk, apkSurum) && !$('apk-bant')) {
+      document.body.insertAdjacentHTML('afterbegin', `<a id="apk-bant" href="${esc(v.apk_url || 'dclub.apk')}" style="display:block;position:sticky;top:0;z-index:30;background:var(--altin);color:var(--koyu);text-align:center;padding:12px 16px;font-weight:600;text-decoration:none">Uygulamanın yeni sürümü var (${esc(v.apk)}) · İndirmek için dokun</a>`);
+    }
+  } catch { /* çevrimdışı */ }
+}
+surumKontrol();
+setInterval(() => { if (!document.hidden) surumKontrol(); }, 60000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) surumKontrol(); });
 </script>
 </body>
 </html>
