@@ -1,5 +1,5 @@
 // D Club: çevrimdışı açılış için basit önbellek. Supabase istekleri hiç önbelleğe alınmaz.
-const SURUM = 'dclub-v1';
+const SURUM = 'dclub-v2';
 const KABUK = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 const DIS = ['https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js'];
 

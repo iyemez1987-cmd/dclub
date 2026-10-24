@@ -44,7 +44,7 @@ button:disabled{opacity:.6}
 .damgalar{display:grid;gap:8px}
 .damga{aspect-ratio:1;border-radius:50%;border:2px solid var(--altin);display:grid;place-items:center;font:700 18px 'Cormorant Garamond',serif;color:rgba(216,181,122,.35)}
 .damga.dolu{background:var(--altin);color:var(--koyu)}
-.damga.hediye{border-color:var(--krem);color:var(--krem);font:600 11px Jost}
+.damga.hediye{border-color:var(--krem);color:var(--krem);font-size:18px}
 .puan{font:700 44px/1 'Cormorant Garamond',serif;color:var(--krem)}
 .hediye-kutu{background:var(--altin);color:var(--koyu);border-radius:18px;padding:14px 16px;font-weight:600}
 .hediye-kutu small{display:block;font-weight:400}
@@ -52,11 +52,24 @@ button:disabled{opacity:.6}
 .isaret.goster{opacity:1}
 .not{font-size:12px;color:var(--soluk);text-align:center}
 [hidden]{display:none!important}
+.ust img{width:64px;height:64px;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.isletme-ad{font:700 24px/1.1 'Cormorant Garamond',serif;color:var(--krem)}
+.firsat{display:flex;gap:14px;align-items:center;background:var(--bordo);border-radius:18px;padding:14px 16px;position:relative}
+.firsat::after{content:"";position:absolute;inset:6px;border:1px solid rgba(216,181,122,.35);border-radius:13px;pointer-events:none}
+.firsat .rozet{flex:none;min-width:64px;height:64px;padding:0 8px;border-radius:14px;background:var(--altin);color:var(--koyu);display:grid;place-items:center;font:700 22px/1 'Cormorant Garamond',serif;text-align:center}
+.firsat small{display:block;font-size:11px;letter-spacing:.2em;color:var(--altinAcik)}
+.firsat b{display:block;font-size:17px;color:var(--krem)}
+.firsat span{font-size:13px;color:var(--altinAcik)}
+.okut{position:sticky;bottom:calc(env(safe-area-inset-bottom) + 12px);display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.5);z-index:5}
+.perde{position:fixed;inset:0;z-index:20;background:rgba(10,4,5,.96);display:flex;align-items:flex-end;justify-content:center;padding:16px 16px calc(env(safe-area-inset-bottom) + 16px)}
+.perde .ic{width:min(420px,100%);display:flex;flex-direction:column;gap:12px;animation:yuksel .25s ease-out}
+@keyframes yuksel{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.perde .ic{animation:none}}
 </style>
 </head>
 <body>
 <main>
-  <div class="ust"><img src="data:image/jpeg;base64,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" alt=""><div><div class="etiket">D CLUB</div><div id="isletme-ad" style="font-weight:500">Sadakat kartı</div></div></div>
+  <header class="ust"><img id="logo" src="icon-192.png" alt=""><div><div class="etiket">D CLUB</div><div id="isletme-ad" class="isletme-ad">Sadakat kartı</div></div></header>
 
   <section id="kayit" hidden>
     <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px">
@@ -69,7 +82,7 @@ button:disabled{opacity:.6}
         <label>Soyad<input type="text" id="soyad" autocomplete="family-name" required></label>
       </div>
       <label>Cep telefonu<input type="tel" id="tel" inputmode="tel" placeholder="5__ ___ __ __" autocomplete="tel" required></label>
-      <label>Doğum tarihi <span style="opacity:.7">(isteğe bağlı — doğum gününde hediye)</span><input type="date" id="dogum"></label>
+      <label>Doğum tarihi <span style="opacity:.7">(isteğe bağlı, doğum gününde hediye)</span><input type="text" id="dogum" inputmode="numeric" placeholder="GG.AA.YYYY" maxlength="10" autocomplete="bday"></label>
       <label class="onay"><input type="checkbox" id="kvkk"> <span>Kişisel verilerimin sadakat programı kapsamında işlenmesini kabul ediyorum (KVKK aydınlatma metni).</span></label>
       <label class="onay"><input type="checkbox" id="ileti"> <span>Kampanya ve fırsatlardan SMS / bildirim ile haberdar olmak istiyorum.</span></label>
       <div class="hata" id="hata" role="alert"></div>
@@ -82,17 +95,10 @@ button:disabled{opacity:.6}
       <p id="selam">Merhaba</p>
       <h1 id="adsoyad"></h1>
     </div>
-    <div class="kart">
-      <div class="beyaz">
-        <div id="qr" aria-label="Üye QR kodu"></div>
-        <svg id="barkod" width="250" height="56" aria-label="Üye barkodu"></svg>
-        <div class="kod" id="kod"></div>
-        <div id="uyekod" style="font-size:12px;color:#666"></div>
-      </div>
-      <p style="text-align:center;color:var(--altinAcik);margin-top:12px;position:relative">Kasada bu kodu okut ya da telefon numaranı söyle</p>
-    </div>
     <div id="hediyeler"></div>
     <div id="kartlar" style="display:flex;flex-direction:column;gap:12px"></div>
+    <div id="firsatlar" style="display:flex;flex-direction:column;gap:12px"></div>
+    <button type="button" id="qr-ac" class="okut"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM15 15h2v2h-2zM19 19h2v2h-2zM15 19h2v2h-2zM19 15h2v2h-2z"/></svg>Kasada okut</button>
     <button class="ikincil" id="yenile" type="button">Yenile</button>
     <div class="kutu" id="kur" hidden>
       <div class="satir"><span class="etiket">UYGULAMA OLARAK EKLE</span></div>
@@ -109,6 +115,21 @@ button:disabled{opacity:.6}
 
   <p class="not" id="yukleniyor">Yükleniyor…</p>
 </main>
+<div class="perde" id="qr-perde" hidden role="dialog" aria-modal="true" aria-label="Kasada okutulacak kod">
+  <div class="ic">
+    <div class="kart">
+      <div class="beyaz">
+        <div id="qr" aria-label="Üye QR kodu"></div>
+        <svg id="barkod" width="250" height="56" aria-label="Üye barkodu"></svg>
+        <div class="kod" id="kod"></div>
+        <div id="uyekod" style="font-size:12px;color:#666"></div>
+      </div>
+      <p style="text-align:center;color:var(--altinAcik);margin-top:12px;position:relative">Kasada bu kodu okut ya da telefon numaranı söyle</p>
+    </div>
+    <p class="not" style="color:var(--altinAcik)">Kasiyer okutunca bu ekran kendiliğinden kapanır.</p>
+    <button type="button" class="ikincil" id="qr-kapat">Kapat</button>
+  </div>
+</div>
 <div class="isaret" id="isaret" role="status"></div>
 <script>
 'use strict';
@@ -167,17 +188,17 @@ function kartCiz(o) {
   const kart = String(m.telefon || '').replace(/\D/g, '').slice(-10) || (m.uye_kodu || '');
   $('kod').textContent = kart.length === 10 ? `${kart.slice(0, 3)} ${kart.slice(3, 6)} ${kart.slice(6, 8)} ${kart.slice(8)}` : kart;
   $('uyekod').textContent = m.uye_kodu ? 'Üye no: ' + m.uye_kodu : '';
-  if (kart) { qrCiz(kart); barkodCiz(kart); }
+  if (kart) { try { qrCiz(kart); } catch { $('qr').textContent = ''; } barkodCiz(kart); }
   $('hediyeler').innerHTML = (o.hediyeler || []).map((h) => `<div class="hediye-kutu">🎁 ${esc(h.aciklama)} hazır<small>Kasada QR'ını okut; son gün ${h.son_kullanma ? new Date(h.son_kullanma).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' }) : '—'}</small></div>`).join('');
   $('kartlar').innerHTML = (o.kartlar || []).map((k) => {
     if (k.tur === 'puan') return `<div class="kutu"><div class="satir"><span class="etiket">${esc(k.ad).toLocaleUpperCase('tr-TR')}</span>${k.puan_degeri_tl ? `<span style="color:var(--soluk);font-size:13px">≈ ₺${binlik(k.puan * k.puan_degeri_tl)}</span>` : ''}</div><div class="puan">${binlik(k.puan)} <span style="font:400 15px Jost;color:var(--soluk)">puan</span></div></div>`;
     const h = k.hedef || 6, sutun = Math.min(h + 1, 7);
     let d = ''; for (let i = 0; i < h; i++) d += `<span class="damga ${i < k.damga ? 'dolu' : ''}">D</span>`;
-    d += `<span class="damga hediye">HEDİYE</span>`;
-    return `<div class="kutu"><div class="satir"><span class="etiket">${esc(k.ad).toLocaleUpperCase('tr-TR')}</span><span style="font-weight:600">${k.damga} / ${h}</span></div><div class="damgalar" style="grid-template-columns:repeat(${sutun},1fr)">${d}</div><p style="font-size:13px">${h - k.damga} alışveriş sonra 1 tanesi bizden</p></div>`;
+    d += `<span class="damga hediye" aria-label="Hediye">🎁</span>`;
+    return `<div class="kutu"><div class="satir"><span class="etiket">${esc(k.ad).toLocaleUpperCase('tr-TR')}</span><span style="font-weight:600">${k.damga} / ${h}</span></div><div class="damgalar" style="grid-template-columns:repeat(${sutun},minmax(0,1fr))">${d}</div><p style="font-size:13px">${h - k.damga} alışveriş sonra 1 tanesi bizden</p></div>`;
   }).join('');
   const imza = JSON.stringify([(o.kartlar || []).map((k) => [k.damga, k.puan, k.kart_no]), (o.hediyeler || []).length]);
-  if (sonImza && imza !== sonImza) isaret('Kartın güncellendi ✓');
+  if (sonImza && imza !== sonImza) { if (!$('qr-perde').hidden) qrKapat(); isaret('İşlendi ✓ Kartın güncellendi'); }
   sonImza = imza;
 }
 function esc(s) { return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
@@ -188,6 +209,8 @@ async function kartGetir(sessiz) {
     const o = await rpc('sadakat_web_kart', { p_slug: SLUG, p_anahtar: a });
     if (!o) { yaz(null); return goster('kayit'); }
     kartCiz(o); goster('kartim');
+    let gordu = null; try { gordu = localStorage.getItem('dclub-qr-goruldu'); } catch {}
+    if (!gordu) qrAc();
   } catch (e) { if (!sessiz) isaret(e.message); if (!$('kartim').hidden) return; goster('kayit'); }
 }
 function goster(b) { $('yukleniyor').hidden = true; $('kayit').hidden = b !== 'kayit'; $('kartim').hidden = b !== 'kartim'; }
@@ -201,11 +224,13 @@ $('form').addEventListener('submit', async (e) => {
   const ad = $('ad').value.trim(), soyad = $('soyad').value.trim(), tel = $('tel').value.replace(/\D/g, '');
   if (ad.length < 2 || soyad.length < 2) return ($('hata').textContent = 'Ad ve soyadını yaz.');
   if (tel.length !== 10 || tel[0] !== '5') return ($('hata').textContent = 'Telefonu 5XX XXX XX XX olarak yaz.');
+  const dogum = dogumCoz($('dogum').value);
+  if (dogum === false) return ($('hata').textContent = 'Doğum tarihini GG.AA.YYYY olarak yaz (ör. 09.09.1999) ya da boş bırak.');
   if (!$('kvkk').checked) return ($('hata').textContent = 'Devam etmek için KVKK onayı gerekli.');
   $('gonder').disabled = true; $('gonder').textContent = 'Kaydediliyor…';
   try {
-    const r = await rpc('sadakat_web_uye_ol', { p_slug: SLUG, p_ad: ad, p_soyad: soyad, p_telefon: tel, p_dogum: $('dogum').value || null, p_kvkk: true, p_ileti: $('ileti').checked });
-    yaz(r.anahtar); kartCiz(r.kart); goster('kartim'); window.scrollTo(0, 0);
+    const r = await rpc('sadakat_web_uye_ol', { p_slug: SLUG, p_ad: ad, p_soyad: soyad, p_telefon: tel, p_dogum: dogum, p_kvkk: true, p_ileti: $('ileti').checked });
+    yaz(r.anahtar); kartCiz(r.kart); goster('kartim'); window.scrollTo(0, 0); qrAc();
     isaret('Hoş geldin! Kartın hazır.');
   } catch (err) { $('hata').textContent = err.message; }
   $('gonder').disabled = false; $('gonder').textContent = 'Üye ol';
@@ -215,7 +240,43 @@ $('cik').addEventListener('click', () => { if (confirm('Bu telefondaki kart kald
 document.addEventListener('visibilitychange', () => { if (!document.hidden && oku()) kartGetir(true); });
 setInterval(() => { if (!document.hidden && oku() && !$('kartim').hidden) kartGetir(true); }, 15000);
 
-rpc('sadakat_vitrin', { p_slug: SLUG }).then((v) => { if (v && v.isletme) { $('isletme-ad').textContent = v.isletme.ad; document.title = v.isletme.ad + ' · D Club'; } }).catch(() => {});
+let vitrin = null;
+rpc('sadakat_vitrin', { p_slug: SLUG }).then((v) => {
+  if (!v || !v.isletme) return;
+  vitrin = v;
+  $('isletme-ad').textContent = v.isletme.ad; document.title = v.isletme.ad + ' · D Club';
+  if (v.isletme.logo_url) $('logo').src = v.isletme.logo_url;
+  firsatCiz();
+}).catch(() => {});
+// damga/puan dışındaki kampanyalar (1+1, indirim, saat...) "Fırsatlar" olarak
+function firsatCiz() {
+  const l = ((vitrin && vitrin.kampanyalar) || []).filter((k) => k.tur !== 'damga' && k.tur !== 'puan');
+  $('firsatlar').innerHTML = l.length ? '<span class="etiket">FIRSATLAR</span>' + l.map((k) => {
+    const g = k.gorsel || {};
+    return `<div class="firsat"><div class="rozet">${esc(g.etiket || '%')}</div><div>${g.ust ? `<small>${esc(g.ust)}</small>` : ''}<b>${esc(k.ad)}</b>${g.alt ? `<span>${esc(g.alt)}</span>` : ''}</div></div>`;
+  }).join('') : '';
+}
+
+// ---- QR perdesi: ilk açılışta kendiliğinden, sonra "Kasada okut" ile
+function qrAc() { $('qr-perde').hidden = false; try { localStorage.setItem('dclub-qr-goruldu', '1'); } catch {} }
+function qrKapat() { $('qr-perde').hidden = true; }
+$('qr-ac').addEventListener('click', qrAc);
+$('qr-kapat').addEventListener('click', qrKapat);
+$('qr-perde').addEventListener('click', (e) => { if (e.target.id === 'qr-perde') qrKapat(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') qrKapat(); });
+
+// ---- Doğum tarihi: rakam yazdıkça GG.AA.YYYY
+$('dogum').addEventListener('input', (e) => {
+  const d = e.target.value.replace(/\D/g, '').slice(0, 8);
+  e.target.value = [d.slice(0, 2), d.slice(2, 4), d.slice(4)].filter(Boolean).join('.');
+});
+function dogumCoz(t) {
+  t = (t || '').trim(); if (!t) return null;
+  const m = t.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/); if (!m) return false;
+  const g = +m[1], a = +m[2], y = +m[3], d = new Date(Date.UTC(y, a - 1, g));
+  if (d.getUTCMonth() !== a - 1 || d.getUTCDate() !== g || y < 1920 || d > new Date()) return false;
+  return `${y}-${String(a).padStart(2, '0')}-${String(g).padStart(2, '0')}`;
+}
 kartGetir(true);
 
 // ---- Uygulama olarak kurma (ana ekran) ----
